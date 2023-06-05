@@ -13,11 +13,37 @@ public class LeagueTable {
     public List<LeagueTableEntry> getTableEntries() {
         List<LeagueTableEntry> tableEntries = new ArrayList<>();
         for (Match match : matches) {
-            LeagueTableEntry homeTeam = new LeagueTableEntry(match.getHomeTeam(), 1, 0,0,0, match.getHomeScore(), match.getAwayScore(), 0, 0);
-            LeagueTableEntry awayTeam = new LeagueTableEntry(match.getAwayTeam(), 1,0, 0,0, match.getAwayScore(), match.getHomeScore(), 0,0);
-            tableEntries.add(homeTeam);
-            tableEntries.add(awayTeam);
+            addTableEntry(tableEntries, match.getHomeTeam(), match.getHomeScore(), match.getAwayScore());
+            addTableEntry(tableEntries, match.getAwayTeam(), match.getAwayScore(), match.getHomeScore());
         }
         return tableEntries;
+    }
+
+    private void addTableEntry(List<LeagueTableEntry> tableEntries, String teamName, int goalsFor, int goalsAgainst) {
+        int goalDifference = goalsFor - goalsAgainst;
+        LeagueTableEntry tableEntry = new LeagueTableEntry().builder()
+                .teamName(teamName)
+                .played(1)
+                .goalsFor(goalsFor)
+                .goalsAgainst(goalsAgainst)
+                .goalDifference(goalDifference)
+                .build();
+        if (goalDifference == 0) {
+            tableEntry.setWon(0);
+            tableEntry.setDrawn(1);
+            tableEntry.setLost(0);
+            tableEntry.setPoints(1);
+        } else if (goalDifference > 0) {
+            tableEntry.setWon(1);
+            tableEntry.setDrawn(0);
+            tableEntry.setLost(0);
+            tableEntry.setPoints(3);
+        } else {
+            tableEntry.setWon(0);
+            tableEntry.setDrawn(0);
+            tableEntry.setLost(1);
+            tableEntry.setPoints(0);
+        }
+        tableEntries.add(tableEntry);
     }
 }

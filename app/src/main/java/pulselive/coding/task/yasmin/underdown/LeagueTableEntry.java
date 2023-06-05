@@ -1,44 +1,26 @@
 package pulselive.coding.task.yasmin.underdown;
 
-import java.util.Objects;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+@Data
+@Builder
+@NoArgsConstructor
+@EqualsAndHashCode
 public class LeagueTableEntry {
-    /**
-     * name of this team
-     */
-    private final String teamName;
-    /**
-     * total games played
-     */
-    private final int played;
-    /**
-     * total games won
-     */
-    private final int won;
-    /**
-     * total games drawn
-     */
-    private final int drawn;
-    /**
-     * total games lost
-     */
-    private final int lost;
-    /**
-     * total goals scored by this team
-     */
-    private final int goalsFor;
-    /**
-     * total goals against this team
-     */
-    private final int goalsAgainst;
-    /**
-     * Average absolute score difference.
-     */
-    private final int goalDifference;
-    /**
-     * total points (3 for wins, and 1 for draws, 0 for loss)
-     */
-    private final int points;
+    @NonNull
+    private String teamName;
+    private int played;
+    private int won;
+    private int drawn;
+    private int lost;
+    private int goalsFor;
+    private int goalsAgainst;
+    private int goalDifference;
+    private int points;
 
     public LeagueTableEntry(String teamName, int played, int won, int drawn, int lost, int goalsFor, int goalsAgainst, int goalDifference, int points) {
         this.teamName = teamName;
@@ -50,54 +32,5 @@ public class LeagueTableEntry {
         this.goalsAgainst = goalsAgainst;
         this.goalDifference = goalDifference;
         this.points = points;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public int getPlayed() {
-        return played;
-    }
-
-    public int getWon() {
-        return won;
-    }
-
-    public int getDrawn() {
-        return drawn;
-    }
-
-    public int getLost() {
-        return lost;
-    }
-
-    public int getGoalsFor() {
-        return goalsFor;
-    }
-
-    public int getGoalsAgainst() {
-        return goalsAgainst;
-    }
-
-    public int getGoalDifference() {
-        return goalDifference;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        LeagueTableEntry that = (LeagueTableEntry) o;
-        return played == that.played && won == that.won && drawn == that.drawn && lost == that.lost && goalsFor == that.goalsFor && goalsAgainst == that.goalsAgainst && goalDifference == that.goalDifference && points == that.points && Objects.equals(teamName, that.teamName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(teamName, played, won, drawn, lost, goalsFor, goalsAgainst, goalDifference, points);
     }
 }

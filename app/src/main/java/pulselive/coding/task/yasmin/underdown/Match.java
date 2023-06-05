@@ -1,46 +1,25 @@
 package pulselive.coding.task.yasmin.underdown;
 
-import java.util.Objects;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Match {
+    @NonNull
     private String homeTeam;
+    @NonNull
     private String awayTeam;
     private int homeScore;
     private int awayScore;
 
-    public Match(final String homeTeam, final String awayTeam, final int homeScore, final int awayScore) {
+    public Match(String homeTeam, String awayTeam, int homeScore, int awayScore) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
-    }
-
-    public String getHomeTeam() {
-        return homeTeam;
-    }
-
-    public String getAwayTeam() {
-        return awayTeam;
-    }
-
-    public int getHomeScore() {
-        return homeScore;
-    }
-
-    public int getAwayScore() {
-        return awayScore;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Match match = (Match) o;
-        return homeScore == match.homeScore && awayScore == match.awayScore && Objects.equals(homeTeam, match.homeTeam) && Objects.equals(awayTeam, match.awayTeam);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(homeTeam, awayTeam, homeScore, awayScore);
     }
 }

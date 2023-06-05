@@ -6,9 +6,9 @@ package pulselive.coding.task.yasmin.underdown;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class LeagueTableGeneratorTest {
+public class MainTest {
     @Test public void appHasAGreeting() {
-        LeagueTableGenerator classUnderTest = new LeagueTableGenerator();
+        Main classUnderTest = new Main();
         assertNotNull("app should have a greeting", classUnderTest.getGreeting());
     }
 }

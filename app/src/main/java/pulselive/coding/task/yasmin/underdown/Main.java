@@ -3,12 +3,12 @@
  */
 package pulselive.coding.task.yasmin.underdown;
 
-public class LeagueTableGenerator {
+public class Main {
     public String getGreeting() {
         return "Hello World!";
     }
 
     public static void main(String[] args) {
-        System.out.println(new LeagueTableGenerator().getGreeting());
+        System.out.println(new Main().getGreeting());
     }
 }

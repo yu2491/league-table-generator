@@ -8,6 +8,8 @@ public class LeagueTable {
 
     private final List<LeagueTableEntry> tableEntries = new ArrayList<>();
 
+    private final LeagueTableEntryComparator leagueTableEntryComparator = new LeagueTableEntryComparator();
+
     public LeagueTable(final List<Match> matches) {
         this.matches = new ArrayList<>(matches);
     }
@@ -21,6 +23,7 @@ public class LeagueTable {
             addOrUpdateLeagueTableEntry(match.getHomeTeam(), match.getHomeScore(), match.getAwayScore());
             addOrUpdateLeagueTableEntry(match.getAwayTeam(), match.getAwayScore(), match.getHomeScore());
         }
+        tableEntries.sort(leagueTableEntryComparator);
         return tableEntries;
     }
 
@@ -45,17 +48,7 @@ public class LeagueTable {
     }
 
     private LeagueTableEntry newTeamLeagueTableEntry(String teamName) {
-        return new LeagueTableEntry().builder()
-                .teamName(teamName)
-                .played(0)
-                .won(0)
-                .drawn(0)
-                .lost(0)
-                .goalsFor(0)
-                .goalsAgainst(0)
-                .goalDifference(0)
-                .points(0)
-                .build();
+        return new LeagueTableEntry(teamName, 0,0,0,0,0,0,0,0);
     }
 
     private LeagueTableEntry getTeamFromTable(String teamName) {

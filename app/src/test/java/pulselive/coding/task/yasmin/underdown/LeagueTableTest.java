@@ -129,6 +129,14 @@ public class LeagueTableTest {
         assertEquals("Team A", leagueTable.getTableEntries().get(1).getTeamName());
         assertEquals("Team B", leagueTable.getTableEntries().get(2).getTeamName());
     }
+
+    @Test
+    public void shouldNotAddNewEntryToLeagueIfTeamIsSameJustDifferentCapitalization() {
+        Match sameTeamsButMixedCaseMatch = new Match("teaM B", "team A", 2, 1);
+        leagueTable.addMatch(sameTeamsButMixedCaseMatch);
+        assertEquals(2, leagueTable.getTableEntries().size());
+    }
+
     private LeagueTableEntry getTeamFromTable(String teamName) {
         for (LeagueTableEntry entry : tableEntries) {
             if (entry.getTeamName().equals(teamName)) {

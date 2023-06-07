@@ -10,12 +10,14 @@ public class LeagueTable {
     static final int POINTS_FOR_A_LOSS = 0;
 
     private final List<Match> matches;
+    private final List<LeagueTableEntry> tableEntries;
+    private final LeagueTableEntryComparator leagueTableEntryComparator;
+
     public LeagueTable(final List<Match> matches) {
         this.matches = new ArrayList<>(matches);
+        this.tableEntries = new ArrayList<>();
+        this.leagueTableEntryComparator = new LeagueTableEntryComparator();
     }
-
-    private final List<LeagueTableEntry> tableEntries = new ArrayList<>();
-    private final LeagueTableEntryComparator leagueTableEntryComparator = new LeagueTableEntryComparator();
 
     public List<LeagueTableEntry> getTableEntries() {
         createTableEntriesFromMatches();
@@ -23,25 +25,27 @@ public class LeagueTable {
         return tableEntries;
     }
 
+    public void addMatch(Match match) {
+        if (match == null) {
+            throw new IllegalArgumentException("Match cannot be null");
+        }
+        matches.add(match);
+    }
+
     private void createTableEntriesFromMatches() {
         for (Match match : matches) {
+            if (match == null) {
+                continue;
+            }
             createOrUpdateLeagueTableEntry(match.getHomeTeam(), match.getHomeScore(), match.getAwayScore());
             createOrUpdateLeagueTableEntry(match.getAwayTeam(), match.getAwayScore(), match.getHomeScore());
         }
     }
 
-    private void sortTableEntries() {
-        tableEntries.sort(leagueTableEntryComparator);
-    }
-
-    public void addMatch(Match match) {
-        matches.add(match);
-    }
-
     private void createOrUpdateLeagueTableEntry(String teamName, int goalsFor, int goalsAgainst) {
         LeagueTableEntry tableEntry = getTeamFromTableEntries(teamName);
-        if(tableEntry == null) {
-            tableEntry = new LeagueTableEntry(teamName, 0,0,0,0,0,0,0,0);
+        if (tableEntry == null) {
+            tableEntry = new LeagueTableEntry(teamName, 0, 0, 0, 0, 0, 0, 0, 0);
             tableEntries.add(tableEntry);
         }
         tableEntry.setPlayed(tableEntry.getPlayed() + 1);
@@ -71,12 +75,18 @@ public class LeagueTable {
         tableEntry.setWon(tableEntry.getWon() + 1);
         tableEntry.setPoints(tableEntry.getPoints() + POINTS_FOR_A_WIN);
     }
+
     private static void updateEntryForLoss(LeagueTableEntry tableEntry) {
         tableEntry.setLost(tableEntry.getLost() + 1);
         tableEntry.setPoints(tableEntry.getPoints() + POINTS_FOR_A_LOSS);
     }
+
     private static void updateEntryForDraw(LeagueTableEntry tableEntry) {
         tableEntry.setDrawn(tableEntry.getDrawn() + 1);
         tableEntry.setPoints(tableEntry.getPoints() + POINTS_FOR_A_DRAW);
+    }
+
+    private void sortTableEntries() {
+        tableEntries.sort(leagueTableEntryComparator);
     }
 }

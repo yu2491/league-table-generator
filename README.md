@@ -51,8 +51,8 @@ Call the getTableEntries() method on LeagueTable to get the sorted list of Leagu
 List<LeagueTableEntry> tableEntries = leagueTable.getTableEntries();
 
 RESULT:
-[LeagueTableEntry(teamName=Manchester United, played=6, won=3, drawn=3, lost=0, goalsFor=9, goalsAgainst=6, goalDifference=3, points=12), 
-LeagueTableEntry(teamName=Chelsea, played=6, won=2, drawn=3, lost=1, goalsFor=7, goalsAgainst=5, goalDifference=2, points=9), 
+[LeagueTableEntry(teamName=Chelsea, played=6, won=4, drawn=1, lost=1, goalsFor=9, goalsAgainst=4, goalDifference=5, points=13), 
+LeagueTableEntry(teamName=Manchester United, played=6, won=3, drawn=1, lost=2, goalsFor=8, goalsAgainst=8, goalDifference=0, points=10), 
 LeagueTableEntry(teamName=Manchester City, played=6, won=2, drawn=1, lost=3, goalsFor=7, goalsAgainst=8, goalDifference=-1, points=7), 
 LeagueTableEntry(teamName=Arsenal, played=6, won=1, drawn=1, lost=4, goalsFor=6, goalsAgainst=10, goalDifference=-4, points=4)]
 ```

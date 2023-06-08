@@ -13,10 +13,4 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testCompileOnly 'org.projectlombok:lombok:1.18.28'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
-
-}
-
-application {
-    // Define the main class for the application.
-    mainClass = 'pulselive.coding.task.yasmin.underdown.Main'
 }

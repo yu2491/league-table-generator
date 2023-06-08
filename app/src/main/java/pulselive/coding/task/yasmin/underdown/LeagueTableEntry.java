@@ -1,13 +1,11 @@
 package pulselive.coding.task.yasmin.underdown;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
-@Builder
 @NoArgsConstructor
 @EqualsAndHashCode
 public class LeagueTableEntry {

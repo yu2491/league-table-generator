@@ -1,6 +1,7 @@
 package pulselive.coding.task.yasmin.underdown;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class LeagueTable {
@@ -11,25 +12,22 @@ public class LeagueTable {
 
     private final List<Match> matches;
     private final List<LeagueTableEntry> tableEntries;
-    private final LeagueTableEntryComparator leagueTableEntryComparator;
+    private final Comparator<LeagueTableEntry> leagueTableEntryComparator;
 
     public LeagueTable(final List<Match> matches) {
+        this(matches, new BestLeagueTableEntryComparator());
+    }
+
+    public LeagueTable(final List<Match> matches, Comparator<LeagueTableEntry> comparator) {
         this.matches = new ArrayList<>(matches);
         this.tableEntries = new ArrayList<>();
-        this.leagueTableEntryComparator = new LeagueTableEntryComparator();
+        this.leagueTableEntryComparator = comparator;
+        createTableEntriesFromMatches();
+        sortTableEntries();
     }
 
     public List<LeagueTableEntry> getTableEntries() {
-        createTableEntriesFromMatches();
-        sortTableEntries();
         return tableEntries;
-    }
-
-    public void addMatch(Match match) {
-        if (match == null) {
-            throw new IllegalArgumentException("Match cannot be null");
-        }
-        matches.add(match);
     }
 
     private void createTableEntriesFromMatches() {

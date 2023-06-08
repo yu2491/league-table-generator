@@ -2,7 +2,6 @@ package pulselive.coding.task.yasmin.underdown;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,25 +9,23 @@ import static org.junit.Assert.assertEquals;
 
 public class LeagueTableTest {
 
-    List<LeagueTableEntry> tableEntries;
-
-    LeagueTable leagueTable;
+    List<Match> matches;
 
     @Before
     public void setUp() {
-        List<Match> matches = new ArrayList<>();
+        matches = new ArrayList<>();
         matches.add(new Match("Team A", "Team B", 2, 1));
-        leagueTable = new LeagueTable(matches);
     }
 
     @Test
     public void addingMatchToLeagueTableShouldAddTwoLeagueTableEntries() {
-        tableEntries = leagueTable.getTableEntries();
+        List<LeagueTableEntry> tableEntries = new LeagueTable(matches).getTableEntries();
         assertEquals(2, tableEntries.size());
     }
 
     @Test
     public void teamAStats() {
+        LeagueTable leagueTable = new LeagueTable(matches);
         LeagueTableEntry teamALeagueEntry = leagueTable.getTableEntries().get(0);
         assertEquals("Team A", teamALeagueEntry.getTeamName());
         assertEquals(1, teamALeagueEntry.getPlayed());
@@ -43,6 +40,7 @@ public class LeagueTableTest {
 
     @Test
     public void teamBStats() {
+        LeagueTable leagueTable = new LeagueTable(matches);
         LeagueTableEntry teamBLeagueEntry = leagueTable.getTableEntries().get(1);
         assertEquals("Team B", teamBLeagueEntry.getTeamName());
         assertEquals(1, teamBLeagueEntry.getPlayed());
@@ -58,8 +56,9 @@ public class LeagueTableTest {
     @Test
     public void whenAddingAMatchShouldAddToExistingLeagueTableEntryIfTeamAlreadyExists() {
         Match match = new Match("Team B", "Team A", 2, 2);
-        leagueTable.addMatch(match);
-        tableEntries = leagueTable.getTableEntries();
+        matches.add(match);
+        LeagueTable leagueTable = new LeagueTable(matches);
+        List<LeagueTableEntry> tableEntries = leagueTable.getTableEntries();
         assertEquals(2, tableEntries.size());
         assertEquals(2, tableEntries.get(0).getPlayed());
         assertEquals(2, tableEntries.get(1).getPlayed());
@@ -68,7 +67,8 @@ public class LeagueTableTest {
     @Test
     public void whenAddingAMatchIfTeamAlreadyExistsPointsShouldBeAddedToExistingValues() {
         Match match = new Match("Team B", "Team A", 2, 2);
-        leagueTable.addMatch(match);
+        matches.add(match);
+        LeagueTable leagueTable = new LeagueTable(matches);
         LeagueTableEntry teamALeagueEntry = leagueTable.getTableEntries().get(0);
         assertEquals(2, teamALeagueEntry.getPlayed());
         assertEquals(1, teamALeagueEntry.getWon());
@@ -84,17 +84,19 @@ public class LeagueTableTest {
     public void getTableEntriesShouldBeSortedFirstByPoints() {
         Match winningTeamBMatch1 = new Match("Team B", "Team C", 3, 0);
         Match winningTeamBMatch2 = new Match("Team B", "Team D", 2, 1);
-        leagueTable.addMatch(winningTeamBMatch1);
-        leagueTable.addMatch(winningTeamBMatch2);
+        matches.add(winningTeamBMatch1);
+        matches.add(winningTeamBMatch2);
+        LeagueTable leagueTable = new LeagueTable(matches);
         assertEquals("Team B", leagueTable.getTableEntries().get(0).getTeamName());
     }
 
     @Test
     public void getTableEntriesShouldBeSortedSecondByGoalDifference() {
         Match winningTeamBMatch = new Match("Team B", "Team A", 3, 0);
-        leagueTable.addMatch(winningTeamBMatch);
-        tableEntries = leagueTable.getTableEntries();
-        assertEquals(getTeamFromTable("Team A").getPoints(), getTeamFromTable("Team B").getPoints());
+        matches.add(winningTeamBMatch);
+        LeagueTable leagueTable = new LeagueTable(matches);
+        List<LeagueTableEntry> tableEntries = leagueTable.getTableEntries();
+        assertEquals(getTeamFromTable("Team A", tableEntries).getPoints(), getTeamFromTable("Team B", tableEntries).getPoints());
         assertEquals("Team B", leagueTable.getTableEntries().get(0).getTeamName());
 
     }
@@ -102,10 +104,11 @@ public class LeagueTableTest {
     @Test
     public void getTableEntriesShouldBeSortedThirdlyByGoalScored() {
         Match winningTeamBMatch = new Match("Team B", "Team C", 2, 0);
-        leagueTable.addMatch(winningTeamBMatch);
-        tableEntries = leagueTable.getTableEntries();
-        assertEquals(getTeamFromTable("Team A").getPoints(), getTeamFromTable("Team B").getPoints());
-        assertEquals(getTeamFromTable("Team A").getGoalDifference(), getTeamFromTable("Team B").getGoalDifference());
+        matches.add(winningTeamBMatch);
+        LeagueTable leagueTable = new LeagueTable(matches);
+        List<LeagueTableEntry> tableEntries = leagueTable.getTableEntries();
+        assertEquals(getTeamFromTable("Team A", tableEntries).getPoints(), getTeamFromTable("Team B", tableEntries).getPoints());
+        assertEquals(getTeamFromTable("Team A", tableEntries).getGoalDifference(), getTeamFromTable("Team B", tableEntries).getGoalDifference());
         assertEquals("Team B", tableEntries.get(0).getTeamName());
     }
 
@@ -113,12 +116,13 @@ public class LeagueTableTest {
     public void getTableEntriesShouldBeSortedLastlyByTeamName() {
         Match winningTeamBMatch = new Match("Team B", "C Team", 2, 1);
         Match winningTeamCMatch = new Match("C Team", "Team A", 2, 1);
-        leagueTable.addMatch(winningTeamBMatch);
-        leagueTable.addMatch(winningTeamCMatch);
-        tableEntries = leagueTable.getTableEntries();
-        var teamA = getTeamFromTable("Team A");
-        var teamB = getTeamFromTable("Team B");
-        var teamC = getTeamFromTable("C Team");
+        matches.add(winningTeamBMatch);
+        matches.add(winningTeamCMatch);
+        LeagueTable leagueTable = new LeagueTable(matches);
+        List<LeagueTableEntry> tableEntries = leagueTable.getTableEntries();
+        var teamA = getTeamFromTable("Team A", tableEntries);
+        var teamB = getTeamFromTable("Team B", tableEntries);
+        var teamC = getTeamFromTable("C Team", tableEntries);
         assertEquals(teamA.getPoints(), teamB.getPoints());
         assertEquals(teamB.getPoints(), teamC.getPoints());
         assertEquals(teamA.getGoalDifference(), teamB.getGoalDifference());
@@ -133,11 +137,12 @@ public class LeagueTableTest {
     @Test
     public void shouldNotAddNewEntryToLeagueIfTeamIsSameJustDifferentCapitalization() {
         Match sameTeamsButMixedCaseMatch = new Match("teaM B", "team A", 2, 1);
-        leagueTable.addMatch(sameTeamsButMixedCaseMatch);
+        matches.add(sameTeamsButMixedCaseMatch);
+        LeagueTable leagueTable = new LeagueTable(matches);
         assertEquals(2, leagueTable.getTableEntries().size());
     }
 
-    private LeagueTableEntry getTeamFromTable(String teamName) {
+    private LeagueTableEntry getTeamFromTable(String teamName, List<LeagueTableEntry> tableEntries) {
         for (LeagueTableEntry entry : tableEntries) {
             if (entry.getTeamName().equals(teamName)) {
                 return entry;
@@ -145,8 +150,4 @@ public class LeagueTableTest {
         }
         return null;
     }
-
-
-
-
 }
